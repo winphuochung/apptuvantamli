@@ -10,7 +10,7 @@ import {
   PhoneCall, Shield, Check, Info, FileText, MessageCircle, GraduationCap, Target
 } from "lucide-react";
 import BreathingExercise from "./BreathingExercise";
-import { StudentProfile, MoodLog, ChatMessage } from "../types.js";
+import { StudentProfile, MoodLog, ChatMessage } from "../types";
 import { motion, AnimatePresence } from "motion/react";
 
 interface StudentPanelProps {
