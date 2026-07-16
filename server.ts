@@ -39,7 +39,10 @@ const PORT = 3000;
 app.use(express.json());
 
 // Path to database
-const DATA_DIR = path.join(process.cwd(), "data");
+const DATA_DIR = process.env.VERCEL === "1" ? "/tmp" : path.join(process.cwd(), "data");
+if (!fs.existsSync(DATA_DIR)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+}
 const DB_FILE = path.join(DATA_DIR, "db.json");
 
 // Dynamic Seeding Helper for high-fidelity interactive data
