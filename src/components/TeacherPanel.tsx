@@ -6,9 +6,9 @@
 import React, { useState, useEffect } from "react";
 import { 
   Users, Calendar, TrendingUp, AlertTriangle, ShieldAlert, 
-  CheckCircle, Clock, Save, Eye, BarChart2, FileText
+  CheckCircle, Clock, Save, Eye, BarChart2, FileText, Lock, ArrowRight, RefreshCw
 } from "lucide-react";
-import { EarlyWarningAlert } from "../types.js";
+import { EarlyWarningAlert } from "../types";
 import { 
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis, 
   CartesianGrid, Tooltip, Cell
