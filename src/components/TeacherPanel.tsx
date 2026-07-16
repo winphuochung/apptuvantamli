@@ -6,13 +6,12 @@
 import React, { useState, useEffect } from "react";
 import { 
   Users, Calendar, TrendingUp, AlertTriangle, ShieldAlert, 
-  Filter, CheckCircle, Clock, Save, Lock, ArrowRight, Eye, RefreshCw, BarChart2, FileText
+  CheckCircle, Clock, Save, Eye, BarChart2, FileText
 } from "lucide-react";
 import { EarlyWarningAlert } from "../types.js";
 import { 
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis, 
-  CartesianGrid, Tooltip, Cell,
-  PieChart, Pie
+  CartesianGrid, Tooltip, Cell
 } from "recharts";
 import D3MoodChart from "./D3MoodChart";
 import { motion } from "motion/react";
