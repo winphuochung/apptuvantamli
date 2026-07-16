@@ -171,7 +171,7 @@ export default function TeacherPanel() {
               <input
                 type="password"
                 required
-                placeholder="Mật khẩu: admin123"
+                placeholder="Nhập mã xác thực..."
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 className="w-full px-4 py-3 border border-rose-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-400 text-sm font-medium bg-rose-50/20 placeholder:text-slate-300"
