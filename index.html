@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function() {
+        if (typeof window !== "undefined") {
+          try {
+            var originalFetch = window.fetch;
+            
+            // 1. Try patching Window.prototype
+            if (typeof Window !== "undefined" && Window.prototype) {
+              try {
+                Object.defineProperty(Window.prototype, 'fetch', {
+                  get: function() {
+                    return this.__overriddenFetch || originalFetch;
+                  },
+                  set: function(val) {
+                    this.__overriddenFetch = val;
+                  },
+                  configurable: true,
+                  enumerable: true
+                });
+              } catch (e1) {}
+            }
+            
+            // 2. Try patching window itself
+            try {
+              var descriptor = Object.getOwnPropertyDescriptor(window, 'fetch');
+              if (!descriptor || descriptor.configurable) {
+                Object.defineProperty(window, 'fetch', {
+                  get: function() {
+                    return (this && this.__overriddenFetch) || originalFetch;
+                  },
+                  set: function(val) {
+                    if (this) this.__overriddenFetch = val;
+                  },
+                  configurable: true,
+                  enumerable: true
+                });
+              }
+            } catch (e2) {}
+
+            // 3. Try patching globalThis
+            if (typeof globalThis !== "undefined" && globalThis !== window) {
+              try {
+                var descriptorG = Object.getOwnPropertyDescriptor(globalThis, 'fetch');
+                if (!descriptorG || descriptorG.configurable) {
+                  Object.defineProperty(globalThis, 'fetch', {
+                    get: function() {
+                      return this.__overriddenFetch || originalFetch;
+                    },
+                    set: function(val) {
+                      this.__overriddenFetch = val;
+                    },
+                    configurable: true,
+                    enumerable: true
+                  });
+                }
+              } catch (e3) {}
+            }
+          } catch (e) {
+            console.warn("Failed to apply robust fetch setter patch:", e);
+          }
+        }
+      })();
+    </script>
+    <title>My Google AI Studio App</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

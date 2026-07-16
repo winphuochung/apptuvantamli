@@ -1,0 +1,6 @@
+{
+  "name": "Trái Tim Yêu Thương",
+  "description": "Hệ thống tư vấn tâm lý học đường dành cho học sinh trường THCS Phước Hưng",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
