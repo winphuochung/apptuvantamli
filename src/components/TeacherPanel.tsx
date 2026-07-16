@@ -54,13 +54,13 @@ export default function TeacherPanel() {
       const statsRes = await fetch("/api/teacher/stats");
       if (statsRes.ok) {
         const statsData = await statsRes.json();
-        setStats(statsData);
+        setStats(statsData && statsData.gradeCounts ? statsData : null);
       }
 
       const alertsRes = await fetch("/api/teacher/alerts");
       if (alertsRes.ok) {
         const alertsData = await alertsRes.json();
-        setAlerts(alertsData);
+        setAlerts(Array.isArray(alertsData) ? alertsData : []);
       }
     } catch (err) {
       console.error("Error fetching admin data:", err);
