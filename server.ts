@@ -9,7 +9,7 @@ import fs from "fs";
 import { fileURLToPath } from "url";
 import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
-import { StudentProfile, MoodLog, ChatMessage, EarlyWarningAlert } from "./src/types.js";
+import { StudentProfile, MoodLog, ChatMessage, EarlyWarningAlert } from "./src/types";
 import admin from 'firebase-admin';
 
 dotenv.config();
