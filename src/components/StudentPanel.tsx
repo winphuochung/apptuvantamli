@@ -226,7 +226,14 @@ export default function StudentPanel({ studentId }: StudentPanelProps) {
   // Handle saving Profile
   const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!profile.nickname.trim()) return;
+    if (!profile.nickname.trim()) {
+      alert("Vui lòng nhập biệt danh của bạn!");
+      return;
+    }
+    if (!profile.grade) {
+      alert("Vui lòng chọn khối lớp học!");
+      return;
+    }
 
     try {
       const res = await fetch(`/api/student/profile/${studentId}`, {
@@ -238,9 +245,12 @@ export default function StudentPanel({ studentId }: StudentPanelProps) {
         setProfileSaved(true);
         // Show floating message or switch tab
         setActiveTab('chat');
+      } else {
+        alert("Đã có lỗi xảy ra. Vui lòng tải lại trang và thử lại!");
       }
     } catch (err) {
       console.error("Error saving profile:", err);
+      alert("Lỗi kết nối mạng, không thể lưu cấu hình.");
     }
   };
 
