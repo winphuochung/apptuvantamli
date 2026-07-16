@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from "react";
 import { 
   Users, Calendar, TrendingUp, AlertTriangle, ShieldAlert, 
-  Filter, CheckCircle, Clock, Save, Lock, ArrowRight, Eye, RefreshCw, BarChart2
+  Filter, CheckCircle, Clock, Save, Lock, ArrowRight, Eye, RefreshCw, BarChart2, FileText
 } from "lucide-react";
 import { EarlyWarningAlert } from "../types.js";
 import { 
