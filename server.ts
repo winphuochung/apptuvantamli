@@ -504,10 +504,6 @@ BẮT BUỘC TRẢ LỜI JSON:
         reason: agent1Data.reason,
         needsTeacherAlert: agent1Data.needsTeacherAlert
       };
-        throw lastError || new Error("Tất cả các model đều thất bại"); // Re-throw if all models failed
-      }
-
-      replyObj = parseGeminiJson(response?.text || "{}");
     } catch (err: any) {
       console.error("Gemini API Error after all retries:", err);
       return res.status(500).json({ 
