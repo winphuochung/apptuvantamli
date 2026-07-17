@@ -47,9 +47,9 @@ export default function TeacherPanel() {
   const [loading, setLoading] = useState(true);
 
   // Fetch stats and alerts
-  const fetchData = async () => {
+  const fetchData = async (isPolling = false) => {
     try {
-      setLoading(true);
+      if (!isPolling) setLoading(true);
       const statsRes = await fetch("/api/teacher/stats");
       if (statsRes.ok) {
         const statsData = await statsRes.json();
@@ -64,13 +64,20 @@ export default function TeacherPanel() {
     } catch (err) {
       console.error("Error fetching admin data:", err);
     } finally {
-      setLoading(false);
+      if (!isPolling) setLoading(false);
     }
   };
 
   useEffect(() => {
     if (isAuthenticated) {
       fetchData();
+      
+      // Real-time auto-refresh every 5 seconds
+      const interval = setInterval(() => {
+        fetchData(true);
+      }, 5000);
+      
+      return () => clearInterval(interval);
     }
   }, [isAuthenticated]);
 
@@ -215,7 +222,7 @@ export default function TeacherPanel() {
               <FileText size={14} /> Xuất Báo Cáo
             </button>
             <button
-              onClick={fetchData}
+              onClick={() => fetchData(false)}
               className="bg-rose-50 hover:bg-rose-100 border border-rose-100 px-3.5 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 text-rose-600 cursor-pointer"
             >
               <RefreshCw size={14} className={loading ? "animate-spin" : ""} /> Tải lại dữ liệu
