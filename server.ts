@@ -52,139 +52,7 @@ function getSeededDatabase(): {
   chats: { [studentId: string]: ChatMessage[] };
   alerts: EarlyWarningAlert[];
 } {
-  const students: { [id: string]: StudentProfile } = {
-    "std-seed-1": {
-      nickname: "Bánh Mì Muối",
-      grade: "8",
-      favoriteSubjects: ["Ngữ văn", "Tiếng Anh"],
-      interests: ["Vẽ tranh", "Đọc sách", "Viết lách"],
-      previousIssues: ["Áp lực học tập", "Căng thẳng/Lo âu"]
-    },
-    "std-seed-2": {
-      nickname: "Mây Trắng Thênh Thang",
-      grade: "9",
-      favoriteSubjects: ["Toán học", "Vật lý"],
-      interests: ["Chơi piano", "Bóng rổ"],
-      previousIssues: ["Áp lực gia đình"]
-    },
-    "std-seed-3": {
-      nickname: "Heo Đất Tiết Kiệm",
-      grade: "6",
-      favoriteSubjects: ["Lịch sử", "Địa lý"],
-      interests: ["Chăm sóc cây", "Nuôi mèo"],
-      previousIssues: ["Xung đột bạn bè"]
-    },
-    "std-seed-4": {
-      nickname: "Khủng Long Tí Hon",
-      grade: "7",
-      favoriteSubjects: ["Tin học", "Sinh học"],
-      interests: ["Chơi game", "Xếp hình lego"],
-      previousIssues: ["Mất động lực"]
-    }
-  };
-
-  const moods: { [studentId: string]: MoodLog[] } = {};
-  const chats: { [studentId: string]: ChatMessage[] } = {};
-  const alerts: EarlyWarningAlert[] = [];
-
-  const today = new Date();
-  
-  // Seed mood logs over the last 30 days
-  const studentIds = ["std-seed-1", "std-seed-2", "std-seed-3", "std-seed-4"];
-  const emojis = ["😊", "😔", "😰", "😢", "😠", "😐", "🌟"];
-  const moodNotes = [
-    "Hôm nay điểm kiểm tra Văn khá tốt, mình rất vui!",
-    "Hơi mệt mỏi một chút vì phải thức khuya ôn thi Lý.",
-    "Bị mẹ so sánh với con nhà người ta, buồn kinh khủng...",
-    "Có chút cãi vã với mấy đứa bạn thân trong tổ, cô lập quá.",
-    "Cảm thấy bế tắc, áp lực thi học sinh giỏi quá nặng nề.",
-    "Bình thường, hôm nay không có gì đặc biệt.",
-    "Nhận được lời khen từ cô giáo chủ nhiệm, tuyệt vời!"
-  ];
-
-  for (let i = 29; i >= 0; i--) {
-    const logDate = new Date(today);
-    logDate.setDate(today.getDate() - i);
-    const dateString = logDate.toISOString().split("T")[0];
-
-    // Seed 1-3 logs per day for general stats
-    const logsNum = Math.floor(Math.random() * 3) + 1;
-    for (let j = 0; j < logsNum; j++) {
-      const randStudent = studentIds[Math.floor(Math.random() * studentIds.length)];
-      const randIdx = Math.floor(Math.random() * emojis.length);
-      const score = randIdx === 0 || randIdx === 6 ? 5 : randIdx === 5 ? 3 : randIdx === 1 || randIdx === 2 || randIdx === 3 || randIdx === 4 ? 2 : 4;
-
-      if (!moods[randStudent]) moods[randStudent] = [];
-      moods[randStudent].push({
-        id: `mood-${dateString}-${j}`,
-        date: dateString,
-        emoji: emojis[randIdx],
-        note: moodNotes[randIdx],
-        score: score
-      });
-    }
-  }
-
-  // Seed standard alert history
-  const alertDates = [12, 8, 5, 2].map(daysAgo => {
-    const d = new Date(today);
-    d.setDate(today.getDate() - daysAgo);
-    return d.toISOString();
-  });
-
-  alerts.push({
-    id: "alert-seed-1",
-    timestamp: alertDates[0],
-    grade: "9",
-    nickname: "Mây Trắng Thênh Thang",
-    issueCategory: "Gia đình",
-    riskLevel: 3,
-    detectedReason: "Học sinh chia sẻ áp lực thi cử từ cha mẹ cực lớn, có suy nghĩ muốn tự hủy hoại bản thân để cha mẹ hối hận.",
-    status: "supporting",
-    notes: "Giáo viên Tổng phụ trách và Ban giám hiệu đã liên hệ gặp gỡ riêng học sinh để trấn an. Đang thu xếp một buổi trò chuyện thân mật với phụ huynh vào cuối tuần này để gỡ nút thắt.",
-    chatSummary: "Em học sinh chia sẻ lo lắng tột cùng vì mẹ yêu cầu phải đỗ trường chuyên, dọa nếu trượt sẽ không cho đi học nữa. Em cảm thấy ngộp thở, không muốn sống nữa."
-  });
-
-  alerts.push({
-    id: "alert-seed-2",
-    timestamp: alertDates[1],
-    grade: "7",
-    nickname: "Cá Vàng Ngơ Ngác",
-    issueCategory: "Bạn bè",
-    riskLevel: 3,
-    detectedReason: "Học sinh bị đe dọa, bắt nạt sau giờ học bởi một nhóm bạn ngoài trường và bị cô lập hoàn toàn trên lớp.",
-    status: "resolved",
-    notes: "Đã làm việc với giáo viên chủ nhiệm lớp 7 và gia đình. Nhà trường phối hợp cùng Công an địa phương nhắc nhở nhóm bạo lực học đường ngoài cổng trường. Em học sinh hiện đã an tâm học tập, các bạn cùng tổ tích cực giúp đỡ.",
-    chatSummary: "Em chia sẻ thường xuyên bị chặn đường đòi tiền ăn sáng, bị dọa đánh nếu mách cô. Em rất sợ và có ý định bỏ học."
-  });
-
-  alerts.push({
-    id: "alert-seed-3",
-    timestamp: alertDates[2],
-    grade: "8",
-    nickname: "Bánh Mì Muối",
-    issueCategory: "Học tập",
-    riskLevel: 2,
-    detectedReason: "Học sinh lo âu căng thẳng cực độ trước kỳ thi học kỳ, mất ngủ liên tục 1 tuần.",
-    status: "resolved",
-    notes: "Chuyên viên tư vấn học đường đã hướng dẫn em phương pháp thở 4-7-8 điều hòa lo âu và cách phân bổ thời gian học tập khoa học. Em báo cáo đã ngủ ngon hơn và tự tin bước vào phòng thi.",
-    chatSummary: "Mất ngủ kéo dài, tim đập nhanh mỗi khi mở sách Văn và Anh, sợ làm ba mẹ thất vọng vì học lực sút kém."
-  });
-
-  alerts.push({
-    id: "alert-seed-4",
-    timestamp: alertDates[3],
-    grade: "6",
-    nickname: "Mèo Lười Tập Bay",
-    issueCategory: "Cảm xúc cá nhân",
-    riskLevel: 3,
-    detectedReason: "Học sinh thể hiện sự buồn bã, khóc một mình kéo dài không rõ nguyên nhân, có dấu hiệu tự cô lập nghiêm trọng.",
-    status: "pending",
-    notes: "",
-    chatSummary: "Em cảm thấy mọi thứ xung quanh thật trống rỗng, không ai hiểu mình, thường xuyên khóc thầm trong nhà vệ sinh trường học, cảm thấy bản thân là gánh nặng của gia đình."
-  });
-
-  return { students, moods, chats, alerts };
+  return { students: {}, moods: {}, chats: {}, alerts: [] };
 }
 
 // Ensure data folder exists
@@ -211,12 +79,12 @@ let dbLoaded = false;
 app.use(async (req, res, next) => {
   if (firestore && !dbLoaded) {
     try {
-      const doc = await firestore.collection('database').doc('main').get();
+      const doc = await firestore.collection('database').doc('v2').get();
       if (doc.exists) {
         db = doc.data() as ReturnType<typeof getSeededDatabase>;
         console.log("🔥 Data loaded from Firestore.");
       } else {
-        await firestore.collection('database').doc('main').set(db);
+        await firestore.collection('database').doc('v2').set(db);
         console.log("🔥 Initial seeded data saved to Firestore.");
       }
       dbLoaded = true;
@@ -235,7 +103,7 @@ function saveDb() {
   }
   
   if (firestore) {
-    firestore.collection('database').doc('main').set(db)
+    firestore.collection('database').doc('v2').set(db)
       .then(() => console.log("🔥 Data saved to Firestore."))
       .catch(err => console.error("🔥 Error saving to Firestore:", err));
   }
@@ -631,42 +499,22 @@ Bạn thấy thoải mái nhất khi chia sẻ về chủ đề nào lúc này? 
 app.get("/api/teacher/stats", (req, res) => {
   // Aggregate stats from db dynamically
   const studentsList = Object.values(db.students);
-  const totalStudents = studentsList.length + 25; // Add offset of seed students for realistic stats
+  const totalStudents = studentsList.length;
   
   // Calculate grade distribution
-  const gradeCounts = { "6": 8, "7": 11, "8": 15, "9": 14 };
+  const gradeCounts: { [grade: string]: number } = {};
   studentsList.forEach(s => {
-    if (gradeCounts[s.grade] !== undefined) {
-      gradeCounts[s.grade]++;
-    }
+    gradeCounts[s.grade] = (gradeCounts[s.grade] || 0) + 1;
   });
 
   // Calculate topic counts based on alerts and mood log categories
-  const topicCounts = {
-    "Học tập": 24,
-    "Bạn bè": 15,
-    "Gia đình": 12,
-    "Cảm xúc cá nhân": 18,
-    "Định hướng bản thân": 9
-  };
-
+  const topicCounts: { [category: string]: number } = {};
   db.alerts.forEach(a => {
-    if (topicCounts[a.issueCategory] !== undefined) {
-      topicCounts[a.issueCategory]++;
-    }
+    topicCounts[a.issueCategory] = (topicCounts[a.issueCategory] || 0) + 1;
   });
 
   // Calculate consulting stats by day
-  const today = new Date();
   const dailyCounts: { [date: string]: number } = {};
-
-  // Initialize past 15 days with some activity
-  for (let i = 14; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(today.getDate() - i);
-    const dateStr = d.toISOString().split("T")[0];
-    dailyCounts[dateStr] = Math.floor(Math.random() * 5) + 2; // seed 2-6 per day
-  }
 
   // Count active chats dynamically
   Object.values(db.chats).forEach(chatList => {
@@ -682,6 +530,7 @@ app.get("/api/teacher/stats", (req, res) => {
   });
 
   // Trend analysis (average mood score over past 7 days)
+  const today = new Date();
   const last7Days: { date: string; avgScore: number }[] = [];
   for (let i = 6; i >= 0; i--) {
     const d = new Date(today);
@@ -700,9 +549,7 @@ app.get("/api/teacher/stats", (req, res) => {
       });
     });
 
-    // Default trend offset so it looks nice and curved
-    const baseAvg = 3.5 + Math.sin(i * 0.8) * 0.5;
-    const avgScore = count > 0 ? Number((totalScore / count).toFixed(1)) : Number(baseAvg.toFixed(1));
+    const avgScore = count > 0 ? Number((totalScore / count).toFixed(1)) : 0;
 
     last7Days.push({
       date: dateStr.substring(5), // MM-DD format
@@ -712,7 +559,7 @@ app.get("/api/teacher/stats", (req, res) => {
 
   res.json({
     totalStudents,
-    totalConsultations: db.alerts.length + 142, // cumulative total offset
+    totalConsultations: db.alerts.length,
     gradeCounts,
     topicCounts,
     dailyCounts,
