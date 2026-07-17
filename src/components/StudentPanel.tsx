@@ -1046,7 +1046,7 @@ export default function StudentPanel({ studentId }: StudentPanelProps) {
                           <span className="text-3xl filter drop-shadow">🏫</span>
                           <div>
                             <h5 className="font-bold text-emerald-900 text-xs font-display">Đường dây trợ giúp THCS Phước Hưng</h5>
-                            <span className="text-base font-bold font-mono text-emerald-700">0254.3821.xxx</span>
+                            <span className="text-base font-bold font-mono text-emerald-700">0963.035.733</span>
                             <p className="text-[10px] text-emerald-800 leading-tight mt-1 font-medium">Phòng Tư vấn học đường & Thầy Tổng phụ trách Đội trường Phước Hưng luôn sẵn sàng lắng nghe và cứu giúp.</p>
                           </div>
                         </div>
